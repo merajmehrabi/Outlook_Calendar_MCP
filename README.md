@@ -20,6 +20,20 @@ A Model Context Protocol (MCP) server that allows Claude to access and manage yo
 
 ## Installation
 
+### Option 1: Install from npm
+
+```bash
+npm install -g outlook-calendar-mcp
+```
+
+You can also run it directly without installation using npx:
+
+```bash
+npx outlook-calendar-mcp
+```
+
+### Option 2: Install from source
+
 1. Clone this repository or download the source code
 2. Install dependencies:
 
@@ -27,10 +41,10 @@ A Model Context Protocol (MCP) server that allows Claude to access and manage yo
 npm install
 ```
 
-3. Build the project:
+3. Run the server:
 
 ```bash
-npm run build
+npm start
 ```
 
 ## MCP Server Configuration
@@ -40,6 +54,36 @@ To use this tool with Claude, you need to add it to your MCP settings configurat
 ### For Claude Desktop App
 
 Add the following to your Claude Desktop configuration file (located at `%APPDATA%\Claude\claude_desktop_config.json`):
+
+#### If installed globally via npm:
+
+```json
+{
+  "mcpServers": {
+    "outlook-calendar": {
+      "command": "outlook-calendar-mcp",
+      "args": [],
+      "env": {}
+    }
+  }
+}
+```
+
+#### Using npx (without installation):
+
+```json
+{
+  "mcpServers": {
+    "outlook-calendar": {
+      "command": "npx",
+      "args": ["-y", "outlook-calendar-mcp"],
+      "env": {}
+    }
+  }
+}
+```
+
+#### If installed from source:
 
 ```json
 {
@@ -57,6 +101,36 @@ Add the following to your Claude Desktop configuration file (located at `%APPDAT
 
 Add the following to your Claude VSCode extension MCP settings file (located at `%APPDATA%\Code\User\globalStorage\saoudrizwan.claude-dev\settings\cline_mcp_settings.json`):
 
+#### If installed globally via npm:
+
+```json
+{
+  "mcpServers": {
+    "outlook-calendar": {
+      "command": "outlook-calendar-mcp",
+      "args": [],
+      "env": {}
+    }
+  }
+}
+```
+
+#### Using npx (without installation):
+
+```json
+{
+  "mcpServers": {
+    "outlook-calendar": {
+      "command": "npx",
+      "args": ["-y", "outlook-calendar-mcp"],
+      "env": {}
+    }
+  }
+}
+```
+
+#### If installed from source:
+
 ```json
 {
   "mcpServers": {
@@ -69,7 +143,7 @@ Add the following to your Claude VSCode extension MCP settings file (located at 
 }
 ```
 
-Replace `path/to/outlook-calendar-mcp` with the actual path to where you installed this tool.
+For source installation, replace `path/to/outlook-calendar-mcp` with the actual path to where you installed this tool.
 
 ## Usage
 
