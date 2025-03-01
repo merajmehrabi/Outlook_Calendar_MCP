@@ -1,0 +1,23 @@
+{
+  "name": "outlook-calendar-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Outlook Calendar integration",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node test-outlook-connection.js",
+    "test:outlook": "node test-outlook-connection.js"
+  },
+  "keywords": [
+    "outlook",
+    "calendar",
+    "mcp",
+    "claude"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.3"
+  }
+}
