@@ -24,6 +24,7 @@ const scriptsDir = path.join(__dirname, 'scripts');
 const getCalendarsScript = path.join(scriptsDir, 'getCalendars.vbs');
 const listEventsScript = path.join(scriptsDir, 'listEvents.vbs');
 const createEventScript = path.join(scriptsDir, 'createEvent.vbs');
+const updateEventScript = path.join(scriptsDir, 'updateEvent.vbs');
 const deleteEventScript = path.join(scriptsDir, 'deleteEvent.vbs');
 
 // Test event details
@@ -130,8 +131,31 @@ async function runTests() {
     process.exit(1);
   }
   
-  // Test 4: Delete Test
-  console.log('\n📋 TEST 4: Delete Test (deleteEvent.vbs)');
+  // Test 4: Update Test
+  console.log('\n📋 TEST 4: Update Test (updateEvent.vbs)');
+  console.log('-------------------------------------------');
+  
+  if (!testEventId) {
+    console.error('❌ Update test skipped: No event ID from write test.');
+    process.exit(1);
+  }
+  
+  const updateResult = await executeScript(updateEventScript, [
+    { name: 'eventId', value: testEventId },
+    { name: 'subject', value: `${testEventSubject} - UPDATED` },
+    { name: 'location', value: 'Updated Test Location' }
+  ]);
+  
+  if (updateResult.success && updateResult.data.success) {
+    console.log('✅ Update test passed!');
+    console.log(`Successfully updated test event with ID: ${testEventId}`);
+  } else {
+    console.error('❌ Update test failed:', updateResult.error || 'Unknown error');
+    process.exit(1);
+  }
+  
+  // Test 5: Delete Test
+  console.log('\n📋 TEST 5: Delete Test (deleteEvent.vbs)');
   console.log('-------------------------------------------');
   
   if (!testEventId) {
@@ -157,6 +181,7 @@ async function runTests() {
   console.log('✅ Connection Test: PASSED');
   console.log('✅ Read Test: PASSED');
   console.log('✅ Write Test: PASSED');
+  console.log('✅ Update Test: PASSED');
   console.log('✅ Delete Test: PASSED');
   console.log('\n🎉 All tests passed! The Outlook Calendar MCP Tool is working correctly.');
 }

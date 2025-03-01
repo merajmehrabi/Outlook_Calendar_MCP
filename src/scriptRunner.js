@@ -127,6 +127,33 @@ export async function deleteEvent(eventId, calendar) {
 }
 
 /**
+ * Updates an existing calendar event
+ * @param {string} eventId - Event ID to update
+ * @param {string} subject - New subject (optional)
+ * @param {string} startDate - New start date in MM/DD/YYYY format (optional)
+ * @param {string} startTime - New start time in HH:MM AM/PM format (optional)
+ * @param {string} endDate - New end date in MM/DD/YYYY format (optional)
+ * @param {string} endTime - New end time in HH:MM AM/PM format (optional)
+ * @param {string} location - New location (optional)
+ * @param {string} body - New body/description (optional)
+ * @param {string} calendar - Calendar name (optional)
+ * @returns {Promise<Object>} - Promise that resolves with the update result
+ */
+export async function updateEvent(eventId, subject, startDate, startTime, endDate, endTime, location, body, calendar) {
+  return executeScript('updateEvent', {
+    eventId,
+    subject,
+    startDate,
+    startTime,
+    endDate,
+    endTime,
+    location,
+    body,
+    calendar
+  });
+}
+
+/**
  * Lists available calendars
  * @returns {Promise<Array>} - Promise that resolves with an array of calendars
  */

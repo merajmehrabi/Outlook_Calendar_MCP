@@ -128,6 +128,25 @@ get_attendee_status
 
 Example: "Who hasn't responded to my team meeting invitation?"
 
+> **Important Note**: When using operations that require an event ID (update_event, delete_event, get_attendee_status), you must use the `id` field from the list_events response. This is the unique EntryID that Outlook uses to identify events.
+
+### Update Calendar Event
+
+```
+update_event
+- eventId: Event ID to update
+- subject: New event subject/title (optional)
+- startDate: New start date in MM/DD/YYYY format (optional)
+- startTime: New start time in HH:MM AM/PM format (optional)
+- endDate: New end date in MM/DD/YYYY format (optional)
+- endTime: New end time in HH:MM AM/PM format (optional)
+- location: New event location (optional)
+- body: New event description (optional)
+- calendar: Calendar name (optional)
+```
+
+Example: "Update my team meeting tomorrow to start at 3 PM instead of 2 PM"
+
 ### Get Calendars
 
 ```

@@ -206,6 +206,9 @@ Function AppointmentToJSON(appointment)
     ' Start building the JSON object
     json = "{"
     
+    ' Include EntryID for event identification
+    json = json & """id"":""" & EscapeJSON(appointment.EntryID) & ""","
+    
     ' Basic properties
     json = json & """subject"":""" & EscapeJSON(appointment.Subject) & ""","
     json = json & """start"":""" & FormatDateTime(appointment.Start) & ""","

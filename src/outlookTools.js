@@ -8,7 +8,8 @@ import {
   findFreeSlots,
   getAttendeeStatus,
   getCalendars,
-  deleteEvent
+  deleteEvent,
+  updateEvent
 } from './scriptRunner.js';
 
 /**
@@ -278,6 +279,79 @@ export function defineOutlookTools() {
               {
                 type: 'text',
                 text: `Error deleting event: ${error.message}`
+              }
+            ],
+            isError: true
+          };
+        }
+      }
+    },
+
+    // Update calendar event
+    update_event: {
+      name: 'update_event',
+      description: 'Update an existing calendar event',
+      inputSchema: {
+        type: 'object',
+        properties: {
+          eventId: {
+            type: 'string',
+            description: 'Event ID to update'
+          },
+          subject: {
+            type: 'string',
+            description: 'New event subject/title (optional)'
+          },
+          startDate: {
+            type: 'string',
+            description: 'New start date in MM/DD/YYYY format (optional)'
+          },
+          startTime: {
+            type: 'string',
+            description: 'New start time in HH:MM AM/PM format (optional)'
+          },
+          endDate: {
+            type: 'string',
+            description: 'New end date in MM/DD/YYYY format (optional)'
+          },
+          endTime: {
+            type: 'string',
+            description: 'New end time in HH:MM AM/PM format (optional)'
+          },
+          location: {
+            type: 'string',
+            description: 'New event location (optional)'
+          },
+          body: {
+            type: 'string',
+            description: 'New event description/body (optional)'
+          },
+          calendar: {
+            type: 'string',
+            description: 'Calendar name (optional)'
+          }
+        },
+        required: ['eventId']
+      },
+      handler: async ({ eventId, subject, startDate, startTime, endDate, endTime, location, body, calendar }) => {
+        try {
+          const result = await updateEvent(eventId, subject, startDate, startTime, endDate, endTime, location, body, calendar);
+          return {
+            content: [
+              {
+                type: 'text',
+                text: result.success 
+                  ? `Event updated successfully` 
+                  : `Failed to update event`
+              }
+            ]
+          };
+        } catch (error) {
+          return {
+            content: [
+              {
+                type: 'text',
+                text: `Error updating event: ${error.message}`
               }
             ],
             isError: true
