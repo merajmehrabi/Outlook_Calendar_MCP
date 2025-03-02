@@ -3,6 +3,7 @@
 A Model Context Protocol (MCP) server that allows Claude to access and manage your local Microsfot Outlook calendar (Windows only).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![smithery badge](https://smithery.ai/badge/@merajmehrabi/Outlook_Calendar_MCP)](https://smithery.ai/server/@merajmehrabi/Outlook_Calendar_MCP)
 
 ## Features
 
@@ -19,6 +20,14 @@ A Model Context Protocol (MCP) server that allows Claude to access and manage yo
 - npm (comes with Node.js)
 
 ## Installation
+
+### Installing via Smithery
+
+To install Outlook Calendar Tool for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@merajmehrabi/Outlook_Calendar_MCP):
+
+```bash
+npx -y @smithery/cli install @merajmehrabi/Outlook_Calendar_MCP --client claude
+```
 
 ### Option 1: Install from npm
 
