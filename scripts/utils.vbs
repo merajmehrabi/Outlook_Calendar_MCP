@@ -152,16 +152,42 @@ End Function
 
 ' ===== JSON Handling =====
 
-' Escapes a string for JSON
+' Escapes a string for JSON with proper Unicode handling
 Function EscapeJSON(str)
-    Dim result
+    Dim result, i, char, charCode
     
-    result = Replace(str, "\", "\\")
-    result = Replace(result, """", "\""")
-    result = Replace(result, vbCrLf, "\n")
-    result = Replace(result, vbCr, "\n")
-    result = Replace(result, vbLf, "\n")
-    result = Replace(result, vbTab, "\t")
+    If IsNull(str) Or str = "" Then
+        EscapeJSON = ""
+        Exit Function
+    End If
+    
+    result = ""
+    For i = 1 To Len(str)
+        char = Mid(str, i, 1)
+        charCode = AscW(char)
+        
+        Select Case char
+            Case "\"
+                result = result & "\\"
+            Case """"
+                result = result & "\"""
+            Case vbCrLf
+                result = result & "\n"
+            Case vbCr
+                result = result & "\n"
+            Case vbLf
+                result = result & "\n"
+            Case vbTab
+                result = result & "\t"
+            Case Else
+                ' Handle Unicode characters properly
+                If charCode > 127 Then
+                    result = result & "\u" & Right("0000" & Hex(charCode), 4)
+                Else
+                    result = result & char
+                End If
+        End Select
+    Next
     
     EscapeJSON = result
 End Function
