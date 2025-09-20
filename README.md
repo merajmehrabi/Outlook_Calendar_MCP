@@ -19,8 +19,29 @@ A Model Context Protocol (MCP) server that allows Claude to access and manage yo
 
 - Windows operating system
 - Microsoft Outlook desktop client installed
+- **VBScript support** (see VBScript Installation below if you're on Windows 11 24H2+)
 - Node.js (version 14.x or higher)
 - npm (comes with Node.js)
+
+### VBScript Installation (Windows 11 24H2+ Users)
+
+**Important**: Starting with Windows 11 24H2, VBScript is no longer installed by default and must be enabled as an optional feature.
+
+If you're experiencing issues with the MCP server not working after a Windows update, you likely need to install VBScript:
+
+1. Open **Settings** (Windows + I)
+2. Go to **Apps** → **Optional features**
+3. Click **"View features"** next to **"Add an optional feature"**
+4. Search for **"VBScript"**
+5. Select **VBScript** and click **Install**
+6. Restart your computer after installation
+
+**VBScript Deprecation Timeline:**
+- **Phase 1** (Late 2024+): Available as optional feature in Windows 11 24H2
+- **Phase 2** (~2027): Will no longer be enabled by default
+- **Phase 3** (Future): Complete removal from Windows
+
+*Note: Thanks to community feedback about VBScript deprecation, I'm considering architectural improvements to make the project more future-proof.*
 
 ## Installation
 
@@ -241,6 +262,8 @@ Example: "Show me my available calendars"
 
 ## Troubleshooting
 
+- **VBScript Not Available (Windows 11 24H2+)**: If you get errors after a Windows update, VBScript may need to be installed. See [VBScript Installation](#vbscript-installation-windows-11-24h2-users) section above
+- **"Script execution failed" errors**: Usually indicates VBScript is not available or Outlook is not accessible
 - **Outlook Security Prompts**: If you see security prompts from Outlook, you need to allow the script to access your Outlook data
 - **Script Execution Policy**: If you encounter script execution errors, you may need to adjust your PowerShell execution policy
 - **Path Issues**: Ensure the path in your MCP configuration file points to the correct location of the tool
