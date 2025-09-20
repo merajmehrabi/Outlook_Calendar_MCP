@@ -31,14 +31,14 @@ export function defineOutlookTools() {
           },
           endDate: {
             type: 'string',
-            description: 'End date in MM/DD/YYYY format (optional)'
+            description: 'End date in MM/DD/YYYY format'
           },
           calendar: {
             type: 'string',
             description: 'Calendar name (optional)'
           }
         },
-        required: ['startDate']
+        required: ['startDate', 'endDate']
       },
       handler: async ({ startDate, endDate, calendar }) => {
         try {
