@@ -22,9 +22,9 @@ const ERROR_PREFIX = 'ERROR:';
  */
 export async function executeScript(scriptName, params = {}) {
   return new Promise((resolve, reject) => {
-    // Build the command
+    // Build the command with UTF-8 support
     const scriptPath = path.join(SCRIPTS_DIR, `${scriptName}.vbs`);
-    let command = `cscript //NoLogo "${scriptPath}"`;
+    let command = `chcp 65001 >nul 2>&1 && cscript //NoLogo "${scriptPath}"`;
     
     // Add parameters
     for (const [key, value] of Object.entries(params)) {
@@ -35,8 +35,8 @@ export async function executeScript(scriptName, params = {}) {
       }
     }
     
-    // Execute the command
-    exec(command, (error, stdout, stderr) => {
+    // Execute the command with UTF-8 encoding
+    exec(command, { encoding: 'utf8' }, (error, stdout, stderr) => {
       // Check for execution errors
       if (error && !stdout.includes(SUCCESS_PREFIX)) {
         return reject(new Error(`Script execution failed: ${error.message}`));
