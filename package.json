@@ -11,9 +11,10 @@
     "outlook-calendar-mcp": "./src/index.js"
   },
   "scripts": {
-    "start": "node src/index.js",
-    "test": "node test-outlook-connection.js",
-    "test:outlook": "node test-outlook-connection.js"
+    "start": "chcp 65001 >nul 2>&1 && node src/index.js",
+    "start:utf8": "chcp 65001 >nul 2>&1 && node src/index.js",
+    "test": "chcp 65001 >nul 2>&1 && node test-outlook-connection.js",
+    "test:outlook": "chcp 65001 >nul 2>&1 && node test-outlook-connection.js"
   },
   "keywords": [
     "outlook",
