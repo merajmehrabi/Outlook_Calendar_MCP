@@ -30,20 +30,29 @@ Sub Main()
     ' Parse date/time if provided
     If startDateStr <> "" And startTimeStr <> "" Then
         startDateTime = ParseDateTime(startDateStr, startTimeStr)
+    ElseIf startDateStr <> "" And startTimeStr = "" Then
+        ' Handle date-only update - will need existing time from event
+        startDateTime = "DATE_ONLY:" & startDateStr
     End If
-    
+
     If endDateStr <> "" And endTimeStr <> "" Then
         endDateTime = ParseDateTime(endDateStr, endTimeStr)
+    ElseIf endDateStr <> "" And endTimeStr = "" Then
+        ' Handle date-only update - will need existing time from event
+        endDateTime = "DATE_ONLY:" & endDateStr
     ElseIf startDateTime <> Empty And endDateStr = "" And endTimeStr = "" Then
         ' If only start time is provided, default end time to 30 minutes after start
         endDateTime = DateAdd("n", 30, startDateTime)
     End If
     
     ' Ensure end time is not before start time if both are provided
+    ' Skip validation for date-only updates since we need the existing appointment to calculate final times
     If Not IsEmpty(startDateTime) And Not IsEmpty(endDateTime) Then
-        If endDateTime <= startDateTime Then
-            OutputError "End time cannot be before or equal to start time"
-            WScript.Quit 1
+        If Left(CStr(startDateTime), 10) <> "DATE_ONLY:" And Left(CStr(endDateTime), 10) <> "DATE_ONLY:" Then
+            If endDateTime <= startDateTime Then
+                OutputError "End time cannot be before or equal to start time"
+                WScript.Quit 1
+            End If
         End If
     End If
     
@@ -106,8 +115,37 @@ Function UpdateCalendarEvent(eventId, subject, startDateTime, endDateTime, locat
     
     ' Update appointment properties if provided
     If subject <> "" Then appointment.Subject = subject
-    If Not IsEmpty(startDateTime) Then appointment.Start = startDateTime
-    If Not IsEmpty(endDateTime) Then appointment.End = endDateTime
+
+    ' Handle start date/time updates
+    If Not IsEmpty(startDateTime) Then
+        If Left(CStr(startDateTime), 10) = "DATE_ONLY:" Then
+            ' Date-only update: combine new date with existing time
+            Dim newStartDate, existingStartTime, combinedStartDateTime
+            newStartDate = ParseDate(Mid(CStr(startDateTime), 11))
+            existingStartTime = TimeValue(appointment.Start)
+            combinedStartDateTime = newStartDate + existingStartTime
+            appointment.Start = combinedStartDateTime
+        Else
+            ' Full date/time update
+            appointment.Start = startDateTime
+        End If
+    End If
+
+    ' Handle end date/time updates
+    If Not IsEmpty(endDateTime) Then
+        If Left(CStr(endDateTime), 10) = "DATE_ONLY:" Then
+            ' Date-only update: combine new date with existing time
+            Dim newEndDate, existingEndTime, combinedEndDateTime
+            newEndDate = ParseDate(Mid(CStr(endDateTime), 11))
+            existingEndTime = TimeValue(appointment.End)
+            combinedEndDateTime = newEndDate + existingEndTime
+            appointment.End = combinedEndDateTime
+        Else
+            ' Full date/time update
+            appointment.End = endDateTime
+        End If
+    End If
+
     If location <> "" Then appointment.Location = location
     If body <> "" Then appointment.Body = body
     
