@@ -1,6 +1,6 @@
 # Outlook Calendar MCP Tool
 
-A Model Context Protocol (MCP) server that allows Claude to access and manage your local Microsfot Outlook calendar (Windows only).
+A Model Context Protocol (MCP) server that allows Claude to access and manage your local Microsoft Outlook calendar (Windows only).
 
 <a href="https://glama.ai/mcp/servers/08enllwrbp">
   <img width="380" height="200" src="https://glama.ai/mcp/servers/08enllwrbp/badge" alt="Outlook Calendar MCP server" />
