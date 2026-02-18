@@ -306,17 +306,19 @@ End Function
 
 ' Converts a collection of Outlook appointment items to a JSON array
 Function AppointmentsToJSON(appointments)
-    Dim i, json
-    
+    Dim json, appointment, first
+
     json = "["
-    
-    For i = 1 To appointments.Count
-        If i > 1 Then json = json & ","
-        json = json & AppointmentToJSON(appointments.Item(i))
+    first = True
+
+    For Each appointment In appointments
+        If Not first Then json = json & ","
+        json = json & AppointmentToJSON(appointment)
+        first = False
     Next
-    
+
     json = json & "]"
-    
+
     AppointmentsToJSON = json
 End Function
 

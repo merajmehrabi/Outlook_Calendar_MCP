@@ -50,7 +50,7 @@ Function GetCalendarEvents(startDate, endDate, calendarName)
     On Error Resume Next
     
     ' Create Outlook objects
-    Dim outlookApp, calendar, filter, events
+    Dim outlookApp, calendar, filter, events, allItems
     
     ' Create Outlook application
     Set outlookApp = CreateOutlookApplication()
@@ -62,15 +62,20 @@ Function GetCalendarEvents(startDate, endDate, calendarName)
         Set calendar = GetCalendarByName(outlookApp, calendarName)
     End If
     
+    ' CRITICAL: Must be in this exact order for recurring events:
+    ' 1. Get Items collection
+    ' 2. Sort by [Start]
+    ' 3. Set IncludeRecurrences = True
+    ' 4. Then filter with Restrict
+    Set allItems = calendar.Items
+    allItems.Sort "[Start]"
+    allItems.IncludeRecurrences = True
+    
     ' Create filter for date range
-    ' Format: "[Start] >= '2/2/2009 12:00 AM' AND [End] <= '2/3/2009 12:00 AM'"
-    filter = "[Start] >= '" & FormatDate(startDate) & " 12:00 AM' AND [End] <= '" & FormatDate(DateAdd("d", 1, endDate)) & " 12:00 AM'"
+    filter = "[Start] >= '" & FormatDate(startDate) & " 12:00 AM' AND [Start] <= '" & FormatDate(DateAdd("d", 1, endDate)) & " 12:00 AM'"
     
     ' Get events matching the filter
-    Set events = calendar.Items.Restrict(filter)
-    
-    ' Sort by start date
-    events.Sort "[Start]"
+    Set events = allItems.Restrict(filter)
     
     If Err.Number <> 0 Then
         OutputError "Failed to get calendar events: " & Err.Description
